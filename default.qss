@@ -1,0 +1,56 @@
+#main {
+    background: lightyellow;
+}
+
+#desktops {
+    background: #222;
+    padding-right: 5px;
+}
+
+#desktops DesktopButton {
+    border: 1px solid #333;
+    min-height: 38px;
+    min-width: 38px;
+    margin: 5px 0 5px 5px;
+}
+
+#desktops DesktopButton QLabel{
+    qproperty-alignment: AlignCenter;
+    color: #666;
+}
+
+#desktops DesktopButton[current='true'] {
+    border-color: #3DBCCC
+}
+
+#desktops DesktopButton[current='true'] QLabel {
+    color: #3DBCCC;
+    font-weight:bold;
+}
+
+
+
+
+
+
+
+#tasks {
+    background: yellowgreen;
+}
+
+#tasks TaskButton {
+    background: #222;
+    min-height: 47px;
+    border-bottom: 3px solid #222;
+    border-left: 1px solid #333;
+}
+
+#tasks TaskButton[active='true'] {
+    border-bottom: 3px solid #3DBCCC;
+}
+
+#tasks TaskButton QLabel {
+    font: 14px 'Liberation Sans Narrow';
+    color: lightyellow;
+}
+

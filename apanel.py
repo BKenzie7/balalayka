@@ -5,8 +5,8 @@ import threading
 import Queue
 import sys
 from PyQt4 import QtGui
-from backend.root import Root
-from frontend.gui import Panel
+from xcomm.root import Root
+from gui.panel import Panel
 # from dummy import printer
 
 app = QtGui.QApplication(sys.argv)

@@ -1,14 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from PyQt4 import QtGui, QtCore
-from Xlib import Xatom, display
-import Xcomm
 import sys
 import time
-from TaskButton import TaskButton
-from DesktopButton import DesktopButton
-import Xcomm
+from PyQt4 import QtGui, QtCore
+from Xlib import Xatom, display
+from task_button import TaskButton
+from desktop_button import DesktopButton
+from xcomm.helpers import *
+
 
 class Panel(QtGui.QWidget):
 
@@ -105,12 +105,12 @@ class Panel(QtGui.QWidget):
 
     def set_active_window(self, id):
         print id
-        Xcomm.send_event('ROOT', '_NET_ACTIVE_WINDOW', 'cardinal', [id])
+        send_event('ROOT', '_NET_ACTIVE_WINDOW', 'cardinal', [id])
 
 
     def set_current_desktop(self, num):
         print num
-        Xcomm.send_event('ROOT', '_NET_CURRENT_DESKTOP', 'cardinal', [num])
+        send_event('ROOT', '_NET_CURRENT_DESKTOP', 'cardinal', [num])
 
 
     def set_window_flags(self):
@@ -119,8 +119,8 @@ class Panel(QtGui.QWidget):
         window = dsp.create_resource_object("window", window_id)
         height = self.main_window.height()
 
-        Xcomm.set_window_property(window, '_NET_WM_WINDOW_TYPE', 'atom', ['_NET_WM_WINDOW_TYPE_DOCK'])
-        Xcomm.set_window_property(window, '_NET_WM_STRUT', 'cardinal', [0, 0, height, 0])
-        Xcomm.set_window_property(window, '_NET_WM_DESKTOP', 'cardinal', [0xffffffff])
+        set_window_property(window, '_NET_WM_WINDOW_TYPE', 'atom', ['_NET_WM_WINDOW_TYPE_DOCK'])
+        set_window_property(window, '_NET_WM_STRUT', 'cardinal', [0, 0, height, 0])
+        set_window_property(window, '_NET_WM_DESKTOP', 'cardinal', [0xffffffff])
 
         dsp.flush()

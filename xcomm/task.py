@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from Xlib import X
-from helpers import get_property, get_property_by_atom_name
+from helpers import *
+
 
 class Task(object):
     '''Task class'''

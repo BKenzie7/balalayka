@@ -3,7 +3,6 @@
 
 from PyQt4 import QtGui, QtCore
 from array import array
-import struct
 
 BEST_ICON_HEIGHT = 32
 

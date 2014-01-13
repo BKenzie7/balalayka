@@ -3,7 +3,7 @@
 
 from Xlib import X, Xatom, display
 from task import Task
-from helpers import get_property, get_property_by_atom_name
+from helpers import *
 import time
 
 LOOP_DELAY = 0.01

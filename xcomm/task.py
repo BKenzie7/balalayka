@@ -12,11 +12,11 @@ class Task(object):
         self.id = id
         self.display = display
         self.event_queue = event_queue
-        self.window = self.display.create_resource_object("window", self.id)
+        self.window = self.display.create_resource_object('window', self.id)
         self.window.change_attributes(event_mask=(
                 X.PropertyChangeMask | X.FocusChangeMask | X.StructureNotifyMask))
 
-    def event_dispatcher(self, event):
+    def x_event_dispatcher(self, event):
         if event.type == X.PropertyNotify:
             atom = self.display.get_atom_name(event.atom)
             if atom in ['_NET_WM_STATE']:
@@ -28,7 +28,10 @@ class Task(object):
             elif atom in ['_NET_WM_DESKTOP']:
                 self.send_event('desktop', self.desktop)
 
-    def send_event(self, type, data = None):
+    def gui_event_dispatcher(self):
+        pass
+
+    def send_event(self, type, data=None):
         event = (self.id, type, data)
         self.event_queue.put(event)
 

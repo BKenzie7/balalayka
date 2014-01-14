@@ -28,12 +28,6 @@
     font-weight:bold;
 }
 
-
-
-
-
-
-
 #tasks {
     background: yellowgreen;
 }

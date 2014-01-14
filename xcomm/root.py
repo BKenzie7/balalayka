@@ -11,14 +11,17 @@ LOOP_DELAY = 0.01
 
 class Root(object):
     def __init__(self, event_queue):
+        super(Root, self).__init__()
         self.event_queue = event_queue
         self.display = display.Display()
         self.screen = self.display.screen()
         self.root_window = self.screen.root
-        self.root_window.change_attributes(event_mask = (X.PropertyChangeMask))
+        self.root_window.change_attributes(event_mask=X.PropertyChangeMask)
+        # self.backend_signal.connect(self.panel.event_dispatcher)
+        self.tasks = self.get_tasks()
 
-    @property
-    def tasks(self):
+    def get_tasks(self):
+        # TODO: UPDATE TASK LIST
         current_tasks_ids = get_property_by_atom_name('_NET_CLIENT_LIST', self.root_window)
         banned_types = ['_NET_WM_WINDOW_TYPE_DESKTOP', '_NET_WM_WINDOW_TYPE_DOCK']
         banned_states = []
@@ -53,18 +56,18 @@ class Root(object):
                 if hasattr(event, 'window'):
                     # Handle window event
                     if event.window.id in self.tasks:
-                        self.tasks[event.window.id].event_dispatcher(event)
+                        self.tasks[event.window.id].x_event_dispatcher(event)
                     # Handle WM event
                     elif event.window.id == self.root_window.id:
-                        self.event_dispatcher(event)
-            # Slow the fuck down
+                        self.x_event_dispatcher(event)
+                        # Slow the fuck down
             time.sleep(LOOP_DELAY)
 
-    def send_event(self, type, data = None):
+    def send_event(self, type, data=None):
         event = ('ROOT', type, data)
         self.event_queue.put(event)
 
-    def event_dispatcher(self, event):
+    def x_event_dispatcher(self, event):
         if event.type == X.PropertyNotify:
             atom = self.display.get_atom_name(event.atom)
             if atom == '_NET_CURRENT_DESKTOP':
@@ -75,3 +78,6 @@ class Root(object):
                 self.send_event('tasks', self.tasks)
             elif atom == '_NET_ACTIVE_WINDOW':
                 self.send_event('active_window', self.active_window)
+
+    def gui_event_dispatcher(self):
+        pass

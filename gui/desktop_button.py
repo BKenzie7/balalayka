@@ -3,6 +3,7 @@
 
 from PyQt4 import QtGui, QtCore
 
+
 class DesktopButton(QtGui.QFrame):
 
     current_signal = QtCore.pyqtSignal(int)

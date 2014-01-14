@@ -6,6 +6,7 @@ from array import array
 
 BEST_ICON_HEIGHT = 32
 
+
 class TaskButton(QtGui.QFrame):
     """docstring for TaskButton"""
 
@@ -32,7 +33,7 @@ class TaskButton(QtGui.QFrame):
         # Task icon
         self.get_icons()
         if self.icons:
-            pixmap = self.get_icon(BEST_ICON_HEIGHT)['pixmap']
+            pixmap = self.get_icon(BEST_ICON_HEIGHT)
             self.icon = QtGui.QLabel()
             self.icon.setPixmap(pixmap)
             self.icon.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
@@ -44,21 +45,21 @@ class TaskButton(QtGui.QFrame):
         self.layout.addWidget(self.label)
 
     def mousePressEvent(self, event):
-        '''Reimplement Qt mouse click event handler'''
+        """Reimplement Qt mouse click event handler"""
         super(TaskButton, self).mousePressEvent(event)
         if event.button() == QtCore.Qt.LeftButton:
             self.on_left_button_click()
 
     def on_left_button_click(self):
-        '''Handle LMB click'''
+        """Handle LMB click"""
         self.activate_signal.emit(self.task.id)
 
     def on_right_button_click(self):
-        '''Handle RMB click'''
+        """Handle RMB click"""
         pass
 
     def update_state(self, active_window_id):
-        '''Update widget to apply styles dependent on instance properties'''
+        """Update widget to apply styles dependent on instance properties"""
         if active_window_id == self.task.id:
             self.active = True
         else:
@@ -74,7 +75,7 @@ class TaskButton(QtGui.QFrame):
             widget.update()
 
     def update_name(self, destination_id, name):
-        '''Update task name'''
+        """Update task name"""
         if destination_id == self.task.id:
             self.label.setText(name)
 
@@ -122,6 +123,9 @@ class TaskButton(QtGui.QFrame):
                 pixmap = QtGui.QPixmap.fromImage(image)
                 icon['pixmap'] = pixmap
 
+                # Delete binary data
+                icon.pop('data')
+
             self.icons = icons
 
         elif self.task.old_icon:
@@ -136,10 +140,6 @@ class TaskButton(QtGui.QFrame):
             mask_bitmap = QtGui.QBitmap(mask_pixmap)
             # pixmap.setMask(mask_bitmap)
 
-            # Scale down pixmap to best height if necessary
-            # if pixmap.height() > BEST_ICON_HEIGHT:
-            #     pixmap = pixmap.scaledToHeight(BEST_ICON_HEIGHT, QtCore.Qt.SmoothTransformation)
-
             self.icons = [{
                 'width': pixmap.width(),
                 'height': pixmap.height(),
@@ -150,10 +150,10 @@ class TaskButton(QtGui.QFrame):
 
     def get_icon(self, height):
         # Get the most appropriate icon by it's height
-        icon = min(self.icons, key = lambda i: abs(height - i['height']))
+        icon = min(self.icons, key=lambda i: abs(height - i['height']))
 
         # Scale down pixmap to best height if necessary
         if icon['height'] > height:
             icon['pixmap'] = icon['pixmap'].scaledToHeight(height, QtCore.Qt.SmoothTransformation)
 
-        return icon
+        return icon['pixmap']
